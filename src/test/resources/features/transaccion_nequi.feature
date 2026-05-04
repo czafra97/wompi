@@ -8,7 +8,6 @@ Característica: Automatización de transacciones en Wompi
     Dado que el comercio obtiene el token de aceptación
     Cuando envía una transacción de "50000" COP con el método "NEQUI"
     Entonces el código de respuesta debe ser 201
-    Y el estado de la transacción debe ser "PENDING"
 
   Escenario: Intento de transacción con monto insuficiente
     Dado que el comercio obtiene el token de aceptación

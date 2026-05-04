@@ -14,7 +14,6 @@ public class CrearTransaccionTask {
     public static Response conNequi(int monto, String token, String telefono) {
         LOGGER.info("Iniciando tarea: Creación de transacción con Nequi");
 
-        // 1. Preparar datos básicos
         int centavos = monto * 100;
         String referencia = "REF_RETO_" + System.currentTimeMillis();
         String moneda = "COP";
@@ -22,7 +21,7 @@ public class CrearTransaccionTask {
 
         LOGGER.info("Generando firma de integridad para la referencia: " + referencia);
 
-        // 2. Generar la firma de integridad (Requisito para evitar el error 422)
+        //Generar la firma de integridad (Requisito para evitar el error 422)
         String firma = IntegritySigner.generate(
                 referencia,
                 centavos,
@@ -32,21 +31,18 @@ public class CrearTransaccionTask {
 
         LOGGER.info("Firma generada exitosamente.");
 
-        // 3. Estructurar el modelo
         TransactionModel data = new TransactionModel(monto, "qa_automation@wompi.dev", token, telefonoFinal);
         data.setReference(referencia);
         data.setSignature(firma);
 
         LOGGER.info("Enviando petición POST a Wompi UAT Sandbox...");
 
-        // 4. Ejecutar la petición
         Response response = RestAssured.given()
                 .header("Authorization", "Bearer " + Constants.PUBLIC_KEY)
                 .contentType(ContentType.JSON)
                 .body(data)
                 .post(Constants.BASE_URL + "/transactions");
 
-        // 5. Logging de salida
         if (response.getStatusCode() != 201) {
             LOGGER.warning("La API respondió con un error esperado para este escenario.");
             LOGGER.warning("Cuerpo del error: " + response.getBody().asPrettyString());

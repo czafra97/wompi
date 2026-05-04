@@ -34,17 +34,6 @@ public class TransactionModel {
         this.signature = signature;
     }
 
-    // --- GETTERS (Necesarios para la serialización de Jackson) ---
-
-    public int getAmount_in_cents() { return amount_in_cents; }
-    public String getCurrency() { return currency; }
-    public String getCustomer_email() { return customer_email; }
-    public String getReference() { return reference; }
-    public String getSignature() { return signature; }
-    public PaymentMethod getPayment_method() { return payment_method; }
-    public String getAcceptance_token() { return acceptance_token; }
-
-    // Clase interna para el objeto payment_method
     public static class PaymentMethod {
         private String type;
         private String phone_number;
@@ -54,7 +43,5 @@ public class TransactionModel {
             this.phone_number = phone;
         }
 
-        public String getType() { return type; }
-        public String getPhone_number() { return phone_number; }
     }
 }
